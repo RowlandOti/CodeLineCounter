@@ -6,23 +6,29 @@ import org.gradle.api.plugins.JavaPluginConvention
 
 class CodeLineCounterPlugin : Plugin<Project> {
 
+    companion object {
+        const val LOG_TAG = "CodeLineCounter"
+    }
+
     override fun apply(project: Project) {
-        project.tasks.create("codeLines") { task ->
+        val extension = project.extensions.create("logtag", LogTagPluginExtension::class.java)
+
+        project.tasks.create("readCodeLines") { task ->
             task.doLast {
-                printCodeLinesCount(project)
+                printCodeLinesCount(extension.tag, project)
             }
         }.apply {
             group = "stat"
         }
     }
 
-    private fun printCodeLinesCount(project: Project) {
+    private fun printCodeLinesCount(logTag: String, project: Project) {
         var totalCount = 0
         project.convention.getPlugin(JavaPluginConvention::class.java).sourceSets.forEach { sourceSet ->
             sourceSet.allSource.forEach { file ->
                 totalCount += file.readLines().count()
             }
         }
-        println("Total lines: $totalCount")
+        println("$logTag: $totalCount total lines of code found in project")
     }
 }
