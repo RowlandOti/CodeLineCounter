@@ -1,0 +1,52 @@
+apply plugin: 'de.nanogiants.android-versioning'
+apply plugin: 'maven-publish'
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+javadoc.failOnError = false
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+publishing {
+    afterEvaluate {
+        publications {
+            pluginMaven(MavenPublication) {
+                artifact sourcesJar
+                artifact javadocJar
+
+                groupId = project.GROUP_ID
+                artifactId = project.PLUGIN_ARTIFACTID
+                version = "${project.MAJOR_VERSION}.${project.MAJOR_VERSION}.${versioning.getVersionCode()}"
+            }
+        }
+    }
+}
+
+gradlePlugin {
+    plugins {
+        codeQualityToolsPlugin {
+            id = project.GROUP_ID
+            implementationClass = project.PLUGIN_IMPLEMENTING_CLASS
+        }
+    }
+}
+
+pluginBundle {
+    website = project.PLUGIN_URL
+    vcsUrl = project.PLUGIN_VCS
+
+    plugins {
+        lineCounterPlugin {
+            displayName = project.PLUGIN_NAME
+            tags = [project.PLUGIN_TAGS]
+            description = project.PLUGIN_DESC
+            version = versioning.getVersionName()
+        }
+    }
+}
+

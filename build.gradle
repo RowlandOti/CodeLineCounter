@@ -1,0 +1,45 @@
+buildscript {
+    ext.kotlinVersion = '1.4.10'
+    ext.androidGradlePluginVersion = '3.6.0'
+
+    repositories {
+        mavenCentral()
+        google()
+        gradlePluginPortal()
+        mavenLocal()
+    }
+
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+        classpath 'com.gradle.publish:plugin-publish-plugin:0.11.0'
+        classpath 'de.nanogiants:android-versioning:2.4.0'
+    }
+}
+
+allprojects {
+    repositories {
+        mavenCentral()
+        google()
+        gradlePluginPortal()
+        mavenLocal()
+    }
+
+    configurations.all {
+        resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+            def requested = details.requested
+            if (requested.group == 'org.jetbrains.kotlin' && requested.name == 'kotlin-reflect') {
+                details.useVersion kotlinVersion
+            }
+        }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+
+wrapper {
+    gradleVersion = '6.3'
+    distributionType = Wrapper.DistributionType.ALL
+}
