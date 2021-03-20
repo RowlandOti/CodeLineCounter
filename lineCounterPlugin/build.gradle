@@ -2,7 +2,6 @@ apply plugin: 'kotlin'
 apply plugin: 'groovy'
 apply plugin: 'java-library'
 apply plugin: 'java-gradle-plugin'
-apply from: '../publish.gradle'
 apply plugin: 'com.gradle.plugin-publish'
 
 sourceCompatibility = JavaVersion.VERSION_1_8
@@ -16,23 +15,17 @@ tasks.getByName('pluginUnderTestMetadata').getPluginClasspath().from(configurati
 
 dependencies {
     api gradleApi()
-    api localGroovy()
-    //api 'org.codehaus.groovy:groovy-all:2.3.11'
+    api "org.codehaus.groovy:groovy-all:$groovyVersion"
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
 
-    compileOnly 'com.android.tools.build:gradle:3.4.0'
+    compileOnly "com.android.tools.build:gradle:$androidGradlePluginVersion"
+    compileOnly "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
 
-    testCompile 'com.android.tools.build:gradle:3.4.0'
-    testCompile 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.31'
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.spockframework:spock-core:1.1-groovy-2.4', { exclude module: "groovy-all" } // Use localGroovy()
+    testCompile "com.android.tools.build:gradle:$androidGradlePluginVersion"
+    testCompile "junit:junit:$jUnitVersion"
+    testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion"
 }
-
-group 'rowlandoti.com'
-version '1.0-SNAPSHOT'
-
-sourceCompatibility = 1.8
 
 compileKotlin {
     kotlinOptions.jvmTarget = "1.8"
@@ -42,16 +35,4 @@ compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
 }
 
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    api gradleApi()
-    api 'org.codehaus.groovy:groovy-all:2.3.11'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-
-    compileOnly "com.android.tools.build:gradle:$androidGradlePluginVersion"
-    compileOnly "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
-}
+apply from: '../publish.gradle'
