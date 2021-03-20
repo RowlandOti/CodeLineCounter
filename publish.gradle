@@ -6,17 +6,12 @@ def versionName = "${project.MAJOR_VERSION}.${project.MAJOR_VERSION}.${versionin
 afterEvaluate {
     publishing {
         publications {
-            pluginPublication(MavenPublication) {
-                from components.java
-                groupId = project.GROUP_ID
-                artifactId = project.PLUGIN_ARTIFACTID
-                version = System.getProperty("versionName", versionName)
+            pluginRelease(MavenPublication) {
+                from components.kotlin
+                groupId  project.GROUP_ID
+                artifactId  project.PLUGIN_ARTIFACTID
+                version  System.getProperty("versionName", versionName)
             }
-        }
-
-        repositories {
-            gradlePluginPortal()
-            mavenLocal()
         }
     }
 }
@@ -36,7 +31,6 @@ pluginBundle {
     website = project.PLUGIN_URL
     vcsUrl = project.PLUGIN_VCS
     tags = project.PLUGIN_TAGS.split(',')
-    println(tags)
     version = System.getProperty("versionName", versionName)
 }
 
