@@ -22,9 +22,9 @@ dependencies {
     compileOnly "com.android.tools.build:gradle:$androidGradlePluginVersion"
     compileOnly "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
 
-    testCompile "com.android.tools.build:gradle:$androidGradlePluginVersion"
-    testCompile "junit:junit:$jUnitVersion"
-    testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion"
+    testImplementation "com.android.tools.build:gradle:$androidGradlePluginVersion"
+    testImplementation "junit:junit:$jUnitVersion"
+    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion"
 }
 
 compileKotlin {

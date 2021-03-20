@@ -17,6 +17,8 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         classpath "com.gradle.publish:plugin-publish-plugin:$gradlePublishPluginVersion"
         classpath "de.nanogiants:android-versioning:$nanoGiantsVersion"
+        classpath "com.android.tools.build:gradle:$androidGradlePluginVersion"
+        classpath 'com.rowlandoti.lines:line-counter-plugin:1.1.4'
     }
 }
 
